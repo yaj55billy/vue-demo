@@ -11,17 +11,86 @@
   <div id="app">
     <div class="container">
       <h1>多層 component "操作"</h1>
-      count: {{ count }}
+      <div class="root">
+        <h2>Root count: {{ count }}</h2>
+        <button type="button" @click="change(1)">add</button>  
+        <button type="button" @click="change(-1)">minus</button>  
+      </div>
+      <outside-component :count="count" @pushupfirst="getOutside"></outside-component>
     </div>
   </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
   <script>
+    let InsideComponent = {
+      template: 
+      `
+        <div class="insidecomponent">
+          <h2>第二層接資料</h2>
+          <p>來自Root層: {{ count }}</p>
+          <button type="button" @click="changeRoot()">改父層資料</button>
+        </div>
+      `,
+      props: {
+        count: {
+          type: Number,
+          default: 0,
+        }
+      },
+      methods: {
+        changeRoot() {
+          // this.count += 1; // [Vue warn]: Attempting to mutate prop "count". Props are readonly
+          this.$emit('pushupsecond', 3);
+        },
+      }
+    }
+    let OutsideComponent = {
+      template: 
+      `
+        <div class="outsidecomponent">
+          <h2>第一層接資料</h2>
+          <p>來自Root層: {{ count }}</p>
+          <button type="button" @click="changeRoot()">改父層資料</button>
+          <InsideComponent :count="count" @pushupsecond="getInside"></InsideComponent>
+        </div>
+      `,
+      props: {
+        count: {
+          type: Number,
+          default: 0,
+        }
+      },
+      methods: {
+        getInside(val) {
+          this.$emit('pushupfirst', val); 
+        },
+        changeRoot() {
+          // this.count += 1; // [Vue warn]: Attempting to mutate prop "count". Props are readonly
+          this.$emit('pushupfirst', 2); 
+        },
+      },
+      components: {
+        InsideComponent,
+      }
+    };
+
     const app = {
       data() {
         return {
           count: 0,
         };
+      },
+      methods: {
+        change(num){
+          this.count += num; 
+        },
+        getOutside(val){
+          this.count += val;
+        },
+      },
+      components: {
+        OutsideComponent,
+        InsideComponent,
       },
     };
 

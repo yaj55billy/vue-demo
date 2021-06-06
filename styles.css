@@ -7,3 +7,20 @@ body,html {
   width: 1140px;
   margin: 0 auto;
 }
+
+.root {
+  background-color: #eee;
+  padding: 12px;
+}
+
+.outsidecomponent{
+  margin-top: 12px;
+  background-color: #ddd;
+  padding: 24px;
+}
+
+.insidecomponent {
+  margin-top: 12px;
+  background-color: #ccc;
+  padding: 36px;
+}
