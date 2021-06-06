@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多層 component "操作"</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <h1>多層 component "操作"</h1>
+      count: {{ count }}
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
+  <script>
+    const app = {
+      data() {
+        return {
+          count: 0,
+        };
+      },
+    };
+
+    Vue.createApp(app).mount('#app');
+  </script>
+
+</body>
+</html>
