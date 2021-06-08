@@ -24,3 +24,34 @@ body,html {
   background-color: #ccc;
   padding: 36px;
 }
+
+.main{
+  font-size: 0;
+  margin-top: 15px;
+}
+.main-item{
+  width: 32%;
+  display: inline-block;
+  vertical-align: top;
+  border: solid 3px #ccc;
+  box-sizing: border-box;
+}
+
+.main-item:nth-child(2){
+  margin: 0 2%;
+}
+
+.main-item-title{
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+.main-item-text{
+  font-size: 20px;
+  text-align: center;
+}
+
+.main-item-btn{
+  width: 100%;
+  font-size: 20px;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多層 component "操作" -2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <h1>多層 component "操作"-2</h1>
+      <div class="root">
+        <h2>Root count: {{ count }}</h2>
+        <button type="button" @click="change(1)">add</button>  
+        <button type="button" @click="change(-1)">minus</button>  
+      </div>
+      <div class="main">
+        <a-component :count="count" @pushup="getCompData"></a-component>
+        <b-component :count="count" @pushup="getCompData"></b-component>
+        <c-component :count="count" @pushup="getCompData"></c-component>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
+  <script>
+    
+    let aComponent = {
+      template: 
+        `<div class="main-item">
+          <h2 class="main-item-title">我是 A 元件</h2>  
+          <p class="main-item-text">從父層來的資料: <em>{{ count }}</em></p>
+          <button class="main-item-btn" type="button" @click="changeRoot(+2)">A元件按鈕想改父層</button>
+        </div>`
+      ,
+      props: {
+        count: {
+          type: Number,
+          default: 0,
+        }
+      },
+      methods: {
+        changeRoot(val) {
+          this.$emit('pushup', val);
+        }
+      },
+    }
+    let bComponent = {
+      template: 
+        `<div class="main-item">
+          <h2 class="main-item-title">我是 B 元件</h2>  
+          <p class="main-item-text">從父層來的資料: <em>{{ count }}</em></p>
+          <button class="main-item-btn" type="button" @click="changeRoot(+4)">B元件按鈕想改父層</button>
+        </div>`
+      ,
+      props: {
+        count: {
+          type: Number,
+          default: 0,
+        }
+      },
+      methods: {
+        changeRoot(val) {
+          this.$emit('pushup', val);
+        }
+      },
+    }
+    let cComponent = {
+      template: 
+        `<div class="main-item">
+          <h2 class="main-item-title">我是 C 元件</h2>  
+          <p class="main-item-text">從父層來的資料: <em>{{ count }}</em></p>
+          <button class="main-item-btn" type="button" @click="changeRoot(+6)">C元件按鈕想改父層</button>
+        </div>`
+      ,
+      props: {
+        count: {
+          type: Number,
+          default: 0,
+        }
+      },
+      methods: {
+        changeRoot(val) {
+          this.$emit('pushup', val);
+        }
+      },
+    }
+    
+
+    const app = {
+      data() {
+        return {
+          count: 0,
+        };
+      },
+      methods: {
+        change(num){
+          this.count += num; 
+        },
+        getCompData(val) { // 子層改父層入口
+          this.count += val;
+        },
+      },
+      components: {
+        aComponent,
+        bComponent,
+        cComponent
+      },
+    };
+
+    Vue.createApp(app).mount('#app');
+  </script>
+
+</body>
+</html>
